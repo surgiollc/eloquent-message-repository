@@ -13,6 +13,6 @@ class TestEvent implements SerializableEvent
 
     public static function fromPayload(array $payload) : SerializableEvent
     {
-        return new TestEvent();
+        return new self();
     }
 }
