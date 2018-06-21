@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 
 class EloquentMessageRepository extends Model implements MessageRepository
-{   
+{
     /**
      * @var MessageSerializer
      */
@@ -50,7 +50,7 @@ class EloquentMessageRepository extends Model implements MessageRepository
         });
     }
 
-    public function retrieveAll(AggregateRootId $id): Generator
+    public function retrieveAll(AggregateRootId $id) : Generator
     {
         $messages = DB::table($this->table)
             ->where('aggregate_root_id', $id->toString())
@@ -62,7 +62,7 @@ class EloquentMessageRepository extends Model implements MessageRepository
         }
     }
 
-    public function retrieveEverything(): Generator
+    public function retrieveEverything() : Generator
     {
         $messages = DB::table($this->table)
             ->orderBy('time_of_recording', 'ASC')

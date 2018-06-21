@@ -45,8 +45,8 @@ class EloquentIntegrationTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_works()
     {
         $aggregateRootId = UuidAggregateRootId::create();
