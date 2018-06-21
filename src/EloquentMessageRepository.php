@@ -2,12 +2,12 @@
 
 namespace JSellis\EloquentMessageRepository;
 
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use EventSauce\EventSourcing\MessageRepository;
-use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\AggregateRootId;
-use Generator;
 use EventSauce\EventSourcing\Header;
+use EventSauce\EventSourcing\Message;
+use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\Serialization\MessageSerializer;
+use Generator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;

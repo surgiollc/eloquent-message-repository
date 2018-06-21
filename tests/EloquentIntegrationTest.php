@@ -3,17 +3,14 @@
 namespace JSellis\EloquentMessageRepository\Tests;
 
 use EventSauce\EventSourcing\DefaultHeadersDecorator;
+use EventSauce\EventSourcing\Header;
+use EventSauce\EventSourcing\Message;
+use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Time\Clock;
 use EventSauce\EventSourcing\Time\TestClock;
-use EventSauce\EventSourcing\Serialization\MessageSerializer;
-use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
-use EventSauce\EventSourcing\Message;
-use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\UuidAggregateRootId;
 use JSellis\EloquentMessageRepository\EloquentMessageRepository;
-use Illuminate\Database\Schema\Blueprint;
 use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Facades\Schema;
 
 class EloquentIntegrationTest extends TestCase
 {
@@ -36,7 +33,7 @@ class EloquentIntegrationTest extends TestCase
 
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--path' => realpath(__DIR__ . '/../migrations'),
+            '--path' => realpath(__DIR__.'/../migrations'),
         ]);
 
         $this->clock = new TestClock();
