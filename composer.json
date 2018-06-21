@@ -1,6 +1,7 @@
 {
     "name": "jsellis/eloquent-message-repository",
     "description": "Eloquent Message Repository for EventSauce",
+    "keywords": ["EventSauce", "EventSaucePHP", "Laravel", "Eloquent", "MessageRepository"],
     "type": "library",
     "autoload": {
         "psr-4": {

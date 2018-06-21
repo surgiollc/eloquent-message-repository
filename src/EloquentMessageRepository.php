@@ -37,11 +37,11 @@ class EloquentMessageRepository extends Model implements MessageRepository
         foreach ($messages as $index => $message) {
             $payload = $this->serializer->serializeMessage($message);
             $params[] = [
+                'time_of_recording' => $payload['headers'][Header::TIME_OF_RECORDING],
                 'event_id' => $payload['headers'][Header::EVENT_ID] = $payload['headers'][Header::EVENT_ID] ?? Uuid::uuid4()->toString(),
+                'payload' => json_encode($payload, JSON_PRETTY_PRINT),
                 'event_type' => $payload['headers'][Header::EVENT_TYPE],
                 'aggregate_root_id' => $payload['headers'][Header::AGGREGATE_ROOT_ID] ?? null,
-                'time_of_recording' => $payload['headers'][Header::TIME_OF_RECORDING],
-                'payload' => json_encode($payload, JSON_PRETTY_PRINT)
             ];
         }
 
@@ -53,10 +53,9 @@ class EloquentMessageRepository extends Model implements MessageRepository
     public function retrieveAll(AggregateRootId $id): Generator
     {
         $messages = DB::table($this->table)
-            ->select('payload')
             ->where('aggregate_root_id', $id->toString())
             ->orderBy('time_of_recording', 'ASC')
-            ->get();
+            ->get(['payload']);
 
         foreach ($messages as $message) {
             yield from $this->serializer->unserializePayload(json_decode($message->payload, true));
@@ -66,9 +65,8 @@ class EloquentMessageRepository extends Model implements MessageRepository
     public function retrieveEverything(): Generator
     {
         $messages = DB::table($this->table)
-            ->select('payload')
             ->orderBy('time_of_recording', 'ASC')
-            ->get();
+            ->get(['payload']);
 
         foreach ($messages as $message) {
             yield from $this->serializer->unserializePayload(json_decode($message->payload, true));

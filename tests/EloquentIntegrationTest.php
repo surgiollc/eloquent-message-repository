@@ -34,16 +34,14 @@ class EloquentIntegrationTest extends TestCase
     {
         parent::setUp();
 
-        Schema::dropIfExists('domain_messages');
         $this->loadMigrationsFrom([
             '--database' => 'testing',
-            '--path' => realpath(__DIR__.'/../migrations'),
+            '--path' => realpath(__DIR__ . '/../migrations'),
         ]);
 
-        $serializer = new ConstructingMessageSerializer();
         $this->clock = new TestClock();
         $this->decorator = new DefaultHeadersDecorator(null, $this->clock);
-        $this->repository = new EloquentMessageRepository($serializer);
+        $this->repository = new EloquentMessageRepository(new ConstructingMessageSerializer());
     }
 
     /**
