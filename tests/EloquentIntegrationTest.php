@@ -10,18 +10,13 @@ use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\UuidAggregateRootId;
-use Illuminate\Database\Capsule\Manager as Capsule;
 use JSellis\EloquentMessageRepository\EloquentMessageRepository;
-use PHPUnit\Framework\TestCase;
 use Illuminate\Database\Schema\Blueprint;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\Schema;
 
-abstract class EloquentIntegrationTestCase extends TestCase
+class EloquentIntegrationTest extends TestCase
 {
-    /**
-     * @var Capsule
-     */
-    private $capsule;
     /**
      * @var Clock
      */
@@ -35,35 +30,20 @@ abstract class EloquentIntegrationTestCase extends TestCase
      */
     private $repository;
 
-    abstract protected function connection(): array;
-
-    abstract protected function messageRepository(
-        array $connection,
-        MessageSerializer $serializer,
-        string $tableName
-    ): EloquentMessageRepository;
-
     protected function setUp()
     {
         parent::setUp();
-        $connection = $this->connection();
-        $this->capsule = new Capsule();
-        $this->capsule->setAsGlobal();
-        $this->capsule->addConnection($connection);
-        $this->capsule->schema()->dropIfExists('domain_messages');
-        $this->capsule->schema()->create('domain_messages', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('event_id', 36);
-            $table->string('event_type', 100);
-            $table->string('aggregate_root_id', 36)->nullable()->index();
-            $table->dateTime('time_of_recording', 6)->index();
-            $table->text('payload');
-        });
-        $this->capsule->table('domain_messages')->truncate();
+
+        Schema::dropIfExists('domain_messages');
+        $this->loadMigrationsFrom([
+            '--database' => 'testing',
+            '--path' => realpath(__DIR__.'/../migrations'),
+        ]);
+
         $serializer = new ConstructingMessageSerializer();
         $this->clock = new TestClock();
         $this->decorator = new DefaultHeadersDecorator(null, $this->clock);
-        $this->repository = $this->messageRepository($connection, $serializer, 'domain_messages');
+        $this->repository = new EloquentMessageRepository($serializer);
     }
 
     /**
