@@ -28,6 +28,11 @@
         "phpunit/phpunit": "^7.2",
         "orchestra/testbench": "~3.0"
     },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit"
+        ]
+    },
     "extra": {
         "laravel": {
             "providers": [
