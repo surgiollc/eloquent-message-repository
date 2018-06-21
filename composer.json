@@ -3,6 +3,13 @@
     "description": "Eloquent Message Repository for EventSauce",
     "keywords": ["EventSauce", "EventSaucePHP", "Laravel", "Eloquent", "MessageRepository"],
     "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jos Sellis",
+            "email": "sellis.jos@gmail.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "JSellis\\EloquentMessageRepository\\": "src/"
@@ -21,11 +28,11 @@
         "phpunit/phpunit": "^7.2",
         "orchestra/testbench": "~3.0"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jos Sellis",
-            "email": "sellis.jos@gmail.com"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JSellis\\EloquentMessageRepository\\EventSauceServiceProvider"
+            ]
         }
-    ]
+    }
 }
