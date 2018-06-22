@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/JSellis/eloquent-message-repository.svg?branch=master)](https://travis-ci.org/JSellis/eloquent-message-repository)
 [![Latest Stable Version](https://poser.pugx.org/jsellis/eloquent-message-repository/version)](https://packagist.org/packages/jsellis/eloquent-message-repository)
 
-This package allows you to use Eloquent as the message repository for [EventSauce](https://eventsauce.io).
+This package allows you to use Eloquent as a custom message repository for [EventSauce](https://eventsauce.io/docs/advanced/custom-repository/).
 
 Heavily inspired by [EventSaucePHP/DoctrineMessageRepository](https://github.com/EventSaucePHP/DoctrineMessageRepository).
 

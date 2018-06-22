@@ -4,7 +4,7 @@ namespace JSellis\EloquentMessageRepository;
 
 use Illuminate\Support\ServiceProvider;
 
-class EventSauceServiceProvicer extends ServiceProvider
+class EventSauceServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
