@@ -1,5 +1,5 @@
 {
-    "name": "jsellis/eloquent-message-repository",
+    "name": "surgiollc/eloquent-message-repository",
     "description": "Eloquent Message Repository for EventSauce",
     "keywords": ["EventSauce", "EventSaucePHP", "Laravel", "Eloquent", "MessageRepository"],
     "type": "library",
@@ -21,7 +21,7 @@
         }
     },
     "require": {
-        "eventsauce/eventsauce": "^0.3.0",
+        "eventsauce/eventsauce": "^0.7.1",
         "ramsey/uuid": "^3.7"
     },
     "require-dev": {
