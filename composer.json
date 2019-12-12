@@ -37,7 +37,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "JSellis\\EloquentMessageRepository\\EventSauceServiceProvider"
+                "Surgio\\EloquentMessageRepository\\EventSauceServiceProvider"
             ]
         }
     }
