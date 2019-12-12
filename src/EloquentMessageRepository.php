@@ -1,6 +1,6 @@
 <?php
 
-namespace JSellis\EloquentMessageRepository;
+namespace Surgio\EloquentMessageRepository;
 
 use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
@@ -71,5 +71,15 @@ class EloquentMessageRepository extends Model implements MessageRepository
         foreach ($messages as $message) {
             yield from $this->serializer->unserializePayload(json_decode($message->payload, true));
         }
+    }
+
+    public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
+    {
+        return \DB::table($this->table)
+            ->select('payload')
+            ->where('aggregate_root_id', $id->toString())
+            ->where('aggregate_root_version', $aggregateRootVersion)
+            ->orderBy('aggregate_root_version', 'ASC')
+            ->cursor();
     }
 }

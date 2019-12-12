@@ -1,28 +1,29 @@
 {
-    "name": "surgiollc/eloquent-message-repository",
+    "name": "surgio/eloquent-message-repository",
     "description": "Eloquent Message Repository for EventSauce",
     "keywords": ["EventSauce", "EventSaucePHP", "Laravel", "Eloquent", "MessageRepository"],
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Jos Sellis",
-            "email": "sellis.jos@gmail.com"
+            "name": "Dallin Coons",
+            "email": "dallincoons@gmail.com"
         }
     ],
     "autoload": {
         "psr-4": {
-            "JSellis\\EloquentMessageRepository\\": "src/"
+            "Surgio\\EloquentMessageRepository\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JSellis\\EloquentMessageRepository\\Tests\\": "tests"
+            "Surgio\\EloquentMessageRepository\\Tests\\": "tests"
         }
     },
     "require": {
         "eventsauce/eventsauce": "^0.7.1",
-        "ramsey/uuid": "^3.7"
+        "ramsey/uuid": "^3.7",
+        "surgiollc/eloquent-message-repository": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.2",

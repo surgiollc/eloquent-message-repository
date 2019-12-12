@@ -1,6 +1,6 @@
 <?php
 
-namespace JSellis\EloquentMessageRepository\Tests;
+namespace Surgio\EloquentMessageRepository\Tests;
 
 use EventSauce\EventSourcing\DefaultHeadersDecorator;
 use EventSauce\EventSourcing\Header;
@@ -9,7 +9,7 @@ use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
 use EventSauce\EventSourcing\Time\Clock;
 use EventSauce\EventSourcing\Time\TestClock;
 use EventSauce\EventSourcing\UuidAggregateRootId;
-use JSellis\EloquentMessageRepository\EloquentMessageRepository;
+use Surgio\EloquentMessageRepository\EloquentMessageRepository;
 use Ramsey\Uuid\Uuid;
 
 class EloquentIntegrationTest extends TestCase
@@ -27,7 +27,7 @@ class EloquentIntegrationTest extends TestCase
      */
     private $repository;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

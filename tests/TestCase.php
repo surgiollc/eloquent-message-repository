@@ -1,6 +1,6 @@
 <?php
 
-namespace JSellis\EloquentMessageRepository\Tests;
+namespace Surgio\EloquentMessageRepository\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 

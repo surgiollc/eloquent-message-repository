@@ -1,6 +1,6 @@
 <?php
 
-namespace JSellis\EloquentMessageRepository;
+namespace Surgio\EloquentMessageRepository;
 
 use Illuminate\Support\ServiceProvider;
 
