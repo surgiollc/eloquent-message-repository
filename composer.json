@@ -22,7 +22,7 @@
     },
     "require": {
         "eventsauce/eventsauce": "^0.8.2",
-        "ramsey/uuid": "^3.7",
+        "ramsey/uuid": "^4.1",
         "surgiollc/eloquent-message-repository": "dev-master"
     },
     "require-dev": {
