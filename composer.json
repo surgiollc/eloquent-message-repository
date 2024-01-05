@@ -6,8 +6,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Dallin Coons",
-            "email": "dallincoons@gmail.com"
+            "name": "Jeff Claeson",
+            "email": "jeff@surgio.com"
         }
     ],
     "autoload": {
@@ -26,7 +26,7 @@
         "surgiollc/eloquent-message-repository": "dev-master"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.2",
+        "phpunit/phpunit": "^10.0",
         "orchestra/testbench": "~3.0"
     },
     "scripts": {

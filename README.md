@@ -5,7 +5,7 @@ This package allows you to use Eloquent as a custom message repository for [Even
 Heavily inspired by [EventSaucePHP/DoctrineMessageRepository](https://github.com/EventSaucePHP/DoctrineMessageRepository).
 
 ## Requirements
-This package requires PHP 7.2 and Laravel 5.6 or higher.
+This package requires PHP 8.1 and Laravel 9 or higher.
 
 ## Installation
 
