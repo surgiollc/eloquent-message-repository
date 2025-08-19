@@ -10,7 +10,7 @@ This package requires PHP 8.1 and Laravel 9 or higher.
 ## Installation
 
 ```
-composer require surgio/eloquent-message-repository:^2.0.0
+composer require surgio/eloquent-message-repository:^3.0.0
 ```
 
 ## Setup
