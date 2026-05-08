@@ -5,12 +5,12 @@ This package allows you to use Eloquent as a custom message repository for [Even
 Heavily inspired by [EventSaucePHP/DoctrineMessageRepository](https://github.com/EventSaucePHP/DoctrineMessageRepository).
 
 ## Requirements
-This package requires PHP 8.1 and Laravel 9 or higher.
+This package requires PHP 8.2 and Laravel 10 or higher.
 
 ## Installation
 
 ```
-composer require surgio/eloquent-message-repository:^3.0.0
+composer require surgio/eloquent-message-repository:^4.0.0
 ```
 
 ## Setup

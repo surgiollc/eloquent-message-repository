@@ -6,35 +6,30 @@ use EventSauce\EventSourcing\AggregateRootId;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\MessageRepository;
+use EventSauce\EventSourcing\PaginationCursor;
 use EventSauce\EventSourcing\Serialization\MessageSerializer;
 use Generator;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Uuid;
 
-class EloquentMessageRepository extends Model implements MessageRepository
+class EloquentMessageRepository implements MessageRepository
 {
-    /**
-     * @var MessageSerializer
-     */
-    private $serializer;
+    private MessageSerializer $serializer;
+    protected string $table = 'domain_messages';
 
-    protected $table = 'domain_messages';
-
-    public function __construct(MessageSerializer $serializer, array $attributes = [])
+    public function __construct(MessageSerializer $serializer)
     {
-        parent::__construct($attributes);
-
         $this->serializer = $serializer;
     }
 
-    public function persist(Message ...$messages)
+    public function persist(Message ...$messages): void
     {
         if (count($messages) === 0) {
             return;
         }
 
-        foreach ($messages as $index => $message) {
+        $params = [];
+        foreach ($messages as $message) {
             $payload = $this->serializer->serializeMessage($message);
             $params[] = [
                 'time_of_recording' => $payload['headers'][Header::TIME_OF_RECORDING],
@@ -46,11 +41,11 @@ class EloquentMessageRepository extends Model implements MessageRepository
         }
 
         DB::transaction(function () use ($params) {
-            static::insert($params);
+            DB::table($this->table)->insert($params);
         });
     }
 
-    public function retrieveAll(AggregateRootId $id) : Generator
+    public function retrieveAll(AggregateRootId $id): Generator
     {
         $messages = DB::table($this->table)
             ->where('aggregate_root_id', $id->toString())
@@ -58,28 +53,38 @@ class EloquentMessageRepository extends Model implements MessageRepository
             ->get(['payload']);
 
         foreach ($messages as $message) {
-            yield from $this->serializer->unserializePayload(json_decode($message->payload, true));
+            yield $this->serializer->unserializePayload(json_decode($message->payload, true));
         }
     }
 
-    public function retrieveEverything() : Generator
+    public function retrieveEverything(): Generator
     {
         $messages = DB::table($this->table)
             ->orderBy('time_of_recording', 'ASC')
             ->get(['payload']);
 
         foreach ($messages as $message) {
-            yield from $this->serializer->unserializePayload(json_decode($message->payload, true));
+            yield $this->serializer->unserializePayload(json_decode($message->payload, true));
         }
     }
 
     public function retrieveAllAfterVersion(AggregateRootId $id, int $aggregateRootVersion): Generator
     {
-        return \DB::table($this->table)
-            ->select('payload')
+        $messages = DB::table($this->table)
             ->where('aggregate_root_id', $id->toString())
-            ->where('aggregate_root_version', $aggregateRootVersion)
-            ->orderBy('aggregate_root_version', 'ASC')
-            ->cursor();
+            ->orderBy('time_of_recording', 'ASC')
+            ->get(['payload']);
+
+        foreach ($messages as $message) {
+            $decoded = json_decode($message->payload, true);
+            if (($decoded['headers'][Header::AGGREGATE_ROOT_VERSION] ?? 0) > $aggregateRootVersion) {
+                yield $this->serializer->unserializePayload($decoded);
+            }
+        }
+    }
+
+    public function paginate(PaginationCursor $cursor): Generator
+    {
+        yield from [];
     }
 }

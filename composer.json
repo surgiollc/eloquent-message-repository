@@ -22,13 +22,14 @@
         }
     },
     "require": {
-        "eventsauce/eventsauce": "^0.8.2|^3.0",
+        "php": ">=8.2",
+        "eventsauce/eventsauce": "^3.0",
         "ramsey/uuid": "^4.1",
-        "surgiollc/eloquent-message-repository": "dev-master"
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.0|^11.0|^12.0",
-        "orchestra/testbench": "~3.0"
+        "orchestra/testbench": "^10.11"
     },
     "scripts": {
         "test": [
