@@ -2,30 +2,20 @@
 
 namespace Surgio\EloquentMessageRepository\Tests;
 
+use EventSauce\Clock\TestClock;
 use EventSauce\EventSourcing\DefaultHeadersDecorator;
 use EventSauce\EventSourcing\Header;
 use EventSauce\EventSourcing\Message;
 use EventSauce\EventSourcing\Serialization\ConstructingMessageSerializer;
-use EventSauce\EventSourcing\Time\Clock;
-use EventSauce\EventSourcing\Time\TestClock;
-use EventSauce\EventSourcing\UuidAggregateRootId;
-use Surgio\EloquentMessageRepository\EloquentMessageRepository;
+use PHPUnit\Framework\Attributes\Test;
 use Ramsey\Uuid\Uuid;
+use Surgio\EloquentMessageRepository\EloquentMessageRepository;
 
 class EloquentIntegrationTest extends TestCase
 {
-    /**
-     * @var Clock
-     */
-    private $clock;
-    /**
-     * @var DefaultHeadersDecorator
-     */
-    private $decorator;
-    /**
-     * @var EloquentMessageRepository
-     */
-    private $repository;
+    private TestClock $clock;
+    private DefaultHeadersDecorator $decorator;
+    private EloquentMessageRepository $repository;
 
     protected function setUp(): void
     {
@@ -41,12 +31,10 @@ class EloquentIntegrationTest extends TestCase
         $this->repository = new EloquentMessageRepository(new ConstructingMessageSerializer());
     }
 
-    /**
-     * @test
-     */
-    public function it_works()
+    #[Test]
+    public function it_works(): void
     {
-        $aggregateRootId = UuidAggregateRootId::create();
+        $aggregateRootId = TestAggregateRootId::create();
         $this->repository->persist();
         $this->assertEmpty(iterator_to_array($this->repository->retrieveAll($aggregateRootId)));
         $eventId = Uuid::uuid4()->toString();
@@ -59,13 +47,11 @@ class EloquentIntegrationTest extends TestCase
         $this->assertEquals($message, $retrievedMessage);
     }
 
-    /**
-     * @test
-     */
-    public function persisting_events_without_aggregate_root_ids()
+    #[Test]
+    public function persisting_events_without_aggregate_root_ids(): void
     {
         $eventId = Uuid::uuid4();
-        $message = $this->decorator->decorate(new Message(new TestEvent((new TestClock())->pointInTime()), [
+        $message = $this->decorator->decorate(new Message(new TestEvent((new TestClock())->now()), [
             Header::EVENT_ID => $eventId->toString(),
         ]));
         $this->repository->persist($message);
@@ -74,12 +60,10 @@ class EloquentIntegrationTest extends TestCase
         $this->assertEquals($message, $persistedMessages[0]);
     }
 
-    /**
-     * @test
-     */
-    public function persisting_events_without_event_ids()
+    #[Test]
+    public function persisting_events_without_event_ids(): void
     {
-        $message = $this->decorator->decorate(new Message(new TestEvent((new TestClock())->pointInTime())));
+        $message = $this->decorator->decorate(new Message(new TestEvent((new TestClock())->now())));
         $this->repository->persist($message);
         $persistedMessages = iterator_to_array($this->repository->retrieveEverything());
         $this->assertCount(1, $persistedMessages);
